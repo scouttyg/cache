@@ -27,8 +27,9 @@ class Listing < ActiveRecord::Base
 
   def attach_correct_cover_photo
     cover_photo = CoverPhoto.find(self.cover_photo_token)
-
+    self.cover_photo_token = nil
     if cover_photo.present?
+      self.cover_photo.destroy if self.cover_photo.present?
       cover_photo.listing_id = self.id
       cover_photo.save!
     end
